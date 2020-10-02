@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-1">
+                <h2 class="ml-3 mt-3">Notifications</h2>
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <div class="row" style="height: 90vh;">
+            <div class="divTable greyGridTable mt-3 col-12">
+                <div class="divTableBody">
+                    {% for instance in object_list %}
+                        <div class="divTableRow">
+                            <div class="divTableCell"><a {% if instance.description %} href="{{instance.description}}"{% endif %}
+                            ><h4>{{instance.verb}}</h4></a></div>
+                        </div>
+                    {% endfor %}  
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

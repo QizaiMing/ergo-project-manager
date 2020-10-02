@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <body class="bg-light">
+        <div class="container-fluid bg-light">
+            <div class="row justify-content-center">
+                <a class="btn text-white ml-5 mt-5 mr-5" role="button" href="/profile"
+                style="background-color: #404CFF;">Back</a>
+            </div>
+
+            <div class="row">
+                <div class="col-5 card bg-light mx-auto mt-5 d-flex flex-column">
+                    <h3 class="mt-3 text-muted mx-auto">-Choose Media-</h3>
+                    
+                    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="col-5 mx-auto mt-2">
+                            <input id="picture" type="file" name="picture" accept="image/*">
+                            <small id="picturehelp" class="form-text text-muted">
+                                500px X 500px Max 2MB
+                              </small>
+                        </div>
+                        
+                        <div class="col-3 mx-auto mt-4 mb-2">
+                            <input type="submit" class="btn btn-block text-white" value="Save" style="background-color: #404CFF;"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock content %}

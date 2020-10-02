@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+    <body class="ergo">
+        <div class="container-fluid">
+            <div class="row ergo justify-content-center mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <div class="card">
+                        <img class="img-fluid mx-auto" src="{% static 'img/login-logo.png' %}" width="200" height="200">
+                        <div class="card-body">
+                            <h2 class="card-title text-center">Use Your Own Account</h2>
+                            <a href="login/auth0" class=" card-text btn btn-block btn-primary"><h3>Login</h3></a>
+                            <h2 class="card-title text-center mt-5">Demo Account</h2>
+
+                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#demouser">
+                                    <h3>Login as Demo User</h3>
+                                  </button>
+                                  
+                                  <!-- Modal -->
+                                  <div class="modal fade" id="demouser" tabindex="-1" role="dialog" aria-labelledby="demouser" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h3 class="modal-title" id="exampleModalLongTitle">Demo User Credentials</h3>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>
+                                                On the login prompt use the following credentials to get access to a demo of the product<br /><br />
+                                                <strong>Email:</strong> demo@ergo.com<br/ >
+                                                <strong>Password:</strong> ergoDEMO123<br />                                                
+                                            </h5>
+                                            <strong></strong>Notice the uppercase letters</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="login/auth0" class="btn btn-block btn-primary"><h3>Ok got it!</h3></a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock content %}

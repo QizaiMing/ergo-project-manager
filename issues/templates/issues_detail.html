@@ -1,0 +1,275 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <body>
+        <div class="container-fluid bg-light">
+            <div class="row">
+                {% if issue.creator.id == user.id %}
+                    <div class="col-3 ml-auto">
+                        <a class="btn text-white ml-5 mt-5 mr-5" role="button" href="/projects/{{issue.project.id}}"
+                        style="background-color: #404CFF;">Back</a>
+                        <a class="btn btn-info ml-5 mt-5" role="button" href="{{issue.get_absolute_url}}/update">Edit</a>
+                    </div>
+
+                    <div class="col-2">
+                        <form method="POST">{% csrf_token %}
+                            <input type="hidden" name="issue_id" value="{{issue.id}}">
+                            <input type="hidden" name="action" value="delete_issue">
+                            <input type="submit" value="Delete Issue" class="btn btn-danger mt-5">
+                        </form>
+                    </div>
+                {% else %}
+                    <a class="btn text-white ml-5 mt-5 mr-5" role="button" href="/projects/{{issue.project.id}}"
+                        style="background-color: #404CFF;">Back</a>
+                        
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-11">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h4 class="card-title"><strong>{{issue.title}}</strong></h4>
+
+                            <div class="row">    
+                                <div class="col-6">
+                                    <textarea class="card-text" cols="58" rows="15"
+                                    style="resize: none; border: none; background-color: white; color: black;" 
+                                    disabled>{{issue.description}}</textarea>
+                                </div>
+
+                                <div class="ml-5 col-3 d-flex flex-column">
+                                    {% if issue.status == 'To Do' %}
+                                        <h5><strong>Status</strong><span class="badge badge-primary ml-1">{{issue.status}}</span></h5>
+
+                                    {% elif issue.status == 'In Progress'%}
+                                        <h5><strong>Status</strong><span class="badge badge-warning ml-1">{{issue.status}}</span></h5>
+
+                                    {% else %}
+                                        <h5><strong>Status</strong><span class="badge badge-success ml-1">{{issue.status}}</span></h5>
+
+                                    {% endif %}
+
+                                    {% if issue.assignee %}
+                                        <label for="assignee"><strong>Assignee</strong></label>
+                                        <div class="row ml-1">
+                                            <img src="{{issue.assignee.picture}}" width="13%" height="80%" class="rounded-circle">
+                                            <p id="assignee" class="ml-1">{{issue.assignee.first_name}}</p>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <label for="creator"><strong>Creator</strong></label>
+                                    <div class="row ml-1">
+                                        <img src="{{issue.creator.picture}}" width="13%" height="80%" class="rounded-circle">
+                                        <p id="creator" class="ml-1">{{issue.creator.first_name}}</p>
+                                    </div>
+
+                                    <label><strong>Files</strong>
+                                        <a class="btn text-white ml-1 btn-sm" role="button" href="{{issue.get_absolute_url}}/attachment"
+                                        style="background-color: #404CFF;">Attach Files</a>
+                                        
+                                        {% if attachments %}
+                                            <a class="btn btn-danger ml-1 btn-sm" role="button" href="{{issue.get_absolute_url}}/attachment/delete"
+                                            >Remove Files</a>
+                                        {% endif %}
+                                    </label>
+
+                                    <div class="row ml-1">
+                                        {% if attachments %}
+                                            {% for file in attachments %}
+                                                <a class="mr-2" href="attachment/download/{{file.id}}" download>{{file}}</a>
+                                            {% endfor %}
+
+                                            {% else %}
+                                            <p class="text-muted">There are no files attached to this issue</p>
+
+                                        {% endif %}
+                                    </div>
+
+                                    <label><strong>Links</strong>
+                                        <button class="btn text-white ml-1 btn-sm" data-toggle="modal"
+                                        data-target="#linkmodal" type="button"
+                                        style="background-color: #404CFF;">Link Issue</button>
+                                    </label>
+
+                                    <div class="modal fade" id="linkmodal" tabindex="-1" role="dialog" aria-labelledby="linkmodal" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <form method="POST" id="link_form">{% csrf_token %}
+                                                        <div class="form-row">
+                                                            <div class="col-4">
+                                                                <select name="link_kind" id="link_kind" class="form-control">
+                                                                    <option value="Relates To">Relates To</option>
+                                                                    <option value="Blocked By">Blocked By</option>
+                                                                    <option value="Blocks">Blocks</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-7">
+                                                                <select name="child_issue" id="child_issue" class="form-control">
+                                                                    {% for i in all_issues %}
+                                                                        {% if issue.id != i.id %}
+                                                                            <option value="{{i.id}}">{{i.title}}</option>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="action" value="create_link">
+                                                        <input type="hidden" name="issue_id" value="{{issue.id}}">
+                                                        <input type="submit" value="Save" class="btn btn-success ml-2 mt-3">
+                                                        <button type="button" class="btn ml-4 btn-danger mt-3" data-dismiss="modal">Cancel</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ml-1">
+                                        {% if links %}
+                                            {% for link in links %}
+                                                {% if issue.id == link.parent_issue.id %}
+                                                    <h5 class="mb-3"><span class="badge ml-1">{{link.kind}}:</span>
+                                                    <a href="{{link.child_issue.get_absolute_url}}">{{link.child_issue.title}}</a>
+
+                                                {% elif link.kind == 'Blocks' %}
+                                                    <h5 class="mb-3"><span class="badge ml-1">Blocked By:</span>
+                                                    <a href="{{link.parent_issue.get_absolute_url}}">{{link.parent_issue.title}}</a>
+
+                                                {% elif link.kind == 'Blocked By' %}
+                                                    <h5 class="mb-3"><span class="badge ml-1">Blocks:</span>
+                                                    <a href="{{link.parent_issue.get_absolute_url}}">{{link.parent_issue.title}}</a>
+
+                                                {% else %}
+                                                    <h5 class="mb-3"><span class="badge ml-1">Relates To:</span>
+                                                    <a href="{{link.parent_issue.get_absolute_url}}">{{link.parent_issue.title}}</a>
+
+                                                {% endif %}
+                                                <form method="POST" id="link_delete_form">{% csrf_token %}
+                                                    <input type="hidden" name="action" value="delete_link">
+                                                    <input type="hidden" name="link_id" value="{{link.id}}">
+                                                    <input type="submit" value="Delete" class="btn btn-sm btn-danger mt-1 ml-3">
+                                                </form>
+                                                </h5>
+                                            {% endfor %}
+
+                                            {% else %}
+                                            <p class="text-muted">There are no issues linked</p>
+
+                                        {% endif %}
+                                    </div>
+
+                                    <small class="mt-3">Created {{issue.created}}</small>
+
+                                    {% if issue.modified != issue.created %}
+                                        <small>Updated {{issue.modified}}</small>
+                                    {% endif %}
+                                    
+                                </div>
+                                <div class="col-2">
+                                    {% if issue.priority == 'Low' %}
+                                        <h5><strong>Priority</strong><span class="badge badge-success ml-1">{{issue.priority}}</span></h5>
+                                        
+                                    {% elif issue.priority == 'Medium'%}
+                                        <h5><strong>Priority</strong><span class="badge badge-warning ml-1">{{issue.priority}}</span></h5>
+
+                                    {% else %}
+                                        <h5><strong>Priority</strong><span class="badge badge-danger ml-1">{{issue.priority}}</span></h5>
+                                        
+                                    {% endif %}
+                                </div>                              
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="row mt-3">
+                <label class="ml-4 mt-2">
+                <h4>
+                    <strong>Comments</strong>
+                    <button class="btn text-white ml-1 btn-sm" data-toggle="modal"
+                        data-target="#commentmodal" type="button"
+                        style="background-color: #404CFF;">New Comment +</button>
+                </h4>         
+                </label>
+
+                <div class="modal fade" id="commentmodal" tabindex="-1" role="dialog" aria-labelledby="commentmodal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form method="POST" id="comment_form">{% csrf_token %}
+                                    <textarea name="content" class="form-control" placeholder="Write something"
+                                    id="content" cols="30" rows="10" form="comment_form" style="resize: none;" required></textarea>
+                                    
+                                    <input type="hidden" name="action" value="create_comment">
+                                    <input type="hidden" name="issue_id" value="{{issue.id}}">
+                                    <input type="hidden" name="creator" value="{{user.id}}">
+                                    <input type="submit" value="Save" class="btn btn-success ml-2 mt-3">
+                                    <button type="button" class="btn ml-4 btn-danger mt-3" data-dismiss="modal">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>                               
+            </div>
+
+            <div class="row">
+                {% if comments %}
+                {% for comment, row in comments %}
+                    <div class="card col-8 ml-5 mt-3">
+                        <div class="card-body">
+                            <div class="row ml-1">
+                                <img src="{{comment.creator.picture}}" width="5%" height="5%" class="rounded-circle">
+                                <p class="ml-1 mt-1">{{comment.creator.first_name}} <small class="ml-3 mr-2">{{comment.created}}</small>
+
+                                {% if user.id == comment.creator.id %}
+                                    <button class="btn btn-info ml-1 btn-sm" data-toggle="modal"
+                                    data-target="#updatecommentmodal{{comment.id}}" type="button">Edit</button>
+
+                                    <div class="modal fade" id="updatecommentmodal{{comment.id}}" tabindex="-1" role="dialog" aria-labelledby="updatecommentmodal{{comment.id}}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <form method="POST" id="comment_update_form{{comment.id}}">{% csrf_token %}
+                                                        <textarea name="comment_content" class="form-control" placeholder="Write something"
+                                                        cols="30" rows="10" form="comment_update_form{{comment.id}}"
+                                                        style="resize: none;" required>{{comment.content}}</textarea>
+                                                        
+                                                        <input type="hidden" name="action" value="update_comment">
+                                                        <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                                        <input type="submit" value="Save" class="btn btn-success ml-2 mt-3">
+                                                        <button type="button" class="btn ml-4 btn-danger mt-3" data-dismiss="modal">Cancel</button>
+                                                    </form>
+                                                </div>                    
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <form method="POST" id="comment_delete_form">{% csrf_token %}
+                                        <input type="hidden" name="action" value="delete_comment">
+                                        <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                        <input type="submit" value="Delete" class="btn btn-sm btn-danger mt-1 ml-2">
+                                    </form>
+
+                                {% endif %}
+                                </p>
+                            </div>
+
+                            <textarea class="card-text" cols="85" rows="{{row}}"
+                                    style="resize: none; border: none; background-color: white; color: black;" 
+                                    disabled>{{comment.content}}</textarea>
+                        </div>
+                        
+
+                    </div>
+                    
+                {% endfor %}
+                
+                {% else %}
+                    <h5 class="text-muted ml-5 mt-2">There are no comments on this issue</h5>
+
+                {% endif %}
+            </div>
+        </div>
+    </body>
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row" style="height: 90vh;">
+            <div class="col-10 mt-5">
+                <a class="btn text-white ml-1 mb-5" role="button" href="/teams"
+                    style="background-color: #404CFF;">Back</a>
+                <form method="POST"> {% csrf_token %}                    
+                    {{ form.as_p }}
+                    <input type="submit" class="btn text-white" value="Save" style="background-color: #404CFF;">
+                </form>
+            </div>
+        </div>
+    </div>
+<body>
+{% endblock content %}

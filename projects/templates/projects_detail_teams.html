@@ -1,0 +1,132 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <!--start header-->
+        <div class="row">
+            <div class="col-5">
+                <h2 class="ml-3 mt-3">{{ object.name }}</h2>
+            </div>
+
+            <div class="col-7 d-flex align-items-center mr-auto mt-2">
+                {% if object.manager.id == user.id %}
+                    <a class="btn text-white mr-2" role="button" href="teams/add" style="background-color: #404CFF;">Add Team +</a>
+                    <a class="btn text-white mr-2" role="button" href="teams/remove" style="background-color: #404CFF;">Delete Team -</a>
+                    <a class="btn text-white ml-auto" role="button" href="{{object.get_absolute_url}}" style="background-color: #404CFF;">Back</a>
+                    
+                {% else %}
+                    <a class="btn text-white ml-auto" role="button" href="{{object.get_absolute_url}}"
+                    style="background-color: #404CFF;">Back</a>
+
+                {% endif %}
+            </div>
+        </div>
+        <!--end header-->
+
+        <div class="row bg-dark pt-1"></div>
+
+        
+        <div class="row" style="height: 90vh;">
+            <!--start project manager card-->
+            <div class="col-3 mt-3">        
+                    <div class="card">
+                        <img class="img-fluid rounded-circle mt-2 mx-auto" height="30%" width="30%" src="{{object.manager.picture}}" alt="">
+                        
+                        <div class="card-body">
+                            <h4 class="card-title text-center">{{object.manager.first_name}}</h4>
+                            <p class="card-text text-center text-muted">{{object.manager.job_title}}</p>
+                            <button class="btn btn-success btn-block" data-toggle="modal" data-target="#managermodal" type="button">Project Manager</button>
+                            
+                            <div class="modal fade" id="managermodal" tabindex="-1" role="dialog" aria-labelledby="managermodal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="col-12 mx-auto d-flex flex-column card bg-light">
+                                                <img class="rounded-circle img-fluid mt-1 mx-auto" src="{{ object.manager.picture }}" width="40%" height="40%">
+                                                
+                                                <form>
+                                                    <div class="form-group row mt-3">
+                                                        <label for="display_name" class="col-3 col-form-label ml-auto">Name</label>
+
+                                                        <div class="col-6 mr-auto">
+                                                            <input type="text" class="form-control" name="display_name" id="display_name" value="{{ object.manager.first_name }}" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="job-title" class="col-3 col-form-label ml-auto">Job Title</label>
+                                                        
+                                                        <div class="col-6 mr-auto">
+                                                            <input type="text" class="form-control" name="job_title" id="job_title" value="{{ object.manager.job_title }}" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="department" class="col-3 col-form-label ml-auto">Department</label>
+
+                                                        <div class="col-6 mr-auto">
+                                                            <input type="text" class="form-control" name="department" id="department" value="{{ object.manager.department }}" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="location" class="col-3 col-form-label ml-auto">Location</label>
+
+                                                        <div class="col-6 mr-auto">
+                                                            <input type="text" class="form-control" name="location" id="location" value="{{ object.manager.location }}" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="email" class="col-3 col-form-label ml-auto">Email</label>
+                                                        
+                                                        <div class="col-6 mr-auto">
+                                                            <input type="text" class="form-control" id="email" placeholder="{{ object.manager.email }}" disabled>                                                                
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="teams" class="col-3 col-form-label ml-auto">Teams</label>
+
+                                                        <div class="col-6 mr-auto">
+                                                            <input type="text" class="form-control" name="teams" id="teams" value="{{ object.manager.teams }}" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                                <button type="button" class="btn mx-auto text-white" data-dismiss="modal"
+                                                style="background-color: #404CFF;">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!--end project manager card-->
+
+            <!--start team card-->
+            {% for team in teams %}
+                    <div class="col-3 mt-3">        
+                            <div class="card">
+                                <img class="img-fluid mt-2 mx-auto" height="30%" width="30%" src="https://cdn.filestackcontent.com/Q9svAh8GSQKqdMyQm3CA">
+                                
+                                <div class="card-body">
+                                    <h4 class="card-title text-center">{{team.name}}</h4>
+                                    <p class="card-text text-center text-muted">Team</p>
+                                    <a class="btn text-white btn-block" role="button" href="{{team.get_absolute_url}}"
+                                    style="background-color: #404CFF;">View Team</a>
+                                </div>
+                            </div>
+                    </div>
+            {% endfor %}
+            <!--end team card-->
+
+        </div>
+    </div>
+</body>
+{% endblock content %}

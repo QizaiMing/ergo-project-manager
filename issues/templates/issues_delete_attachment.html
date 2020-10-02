@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-6">
+                <h2 class="ml-3 mt-3">Remove Attachments</h2>
+            </div>
+
+            <div class="col-2 d-flex align-items-center ml-auto mt-2">
+                    <a class="btn text-white" role="button" href="/issues/{{issue.id}}"
+                    style="background-color: #404CFF;">Back</a>
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <div class="row" style="height: 90vh;">
+            {% for attachment in attachments %}
+                <div class="col-5 mt-3">        
+                    <div class="card">
+                        <h5 class="mt-2 ml-2 mr-3 text-center">{{attachment}}</h5>
+
+                        <form method="POST" class="mt-2 justify-content-center d-flex">{% csrf_token %}
+                            <input type="hidden" name="attachment_id" value="{{attachment.id}}">
+                            <input class="btn btn-danger btn-sm mb-2" type="submit" value="Remove">
+                        </form>
+                    </div>
+                </div>
+                
+            {% endfor %}
+        </div>
+    </div>
+<body>
+{% endblock content %}

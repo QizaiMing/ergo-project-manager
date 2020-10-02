@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-3">
+                <h2 class="ml-3 mt-3">Add Teams</h2>
+            </div>
+
+            <div class="col-2 d-flex align-items-center ml-auto mt-2">
+                    <a class="btn text-white" role="button" href="{{project.get_absolute_url}}/teams"
+                    style="background-color: #404CFF;">Back</a>
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <div class="row" style="height: 90vh;">
+            {% for team in teams %}
+                <div class="col-3 mt-3">        
+                        <div class="card">
+                            <img class="img-fluid mt-2 mx-auto" height="30%" width="30%" src="https://cdn.filestackcontent.com/Q9svAh8GSQKqdMyQm3CA">
+                            
+                            <div class="card-body">
+                                <h4 class="card-title text-center">{{team.name}}</h4>
+                                <p class="card-text text-center text-muted">Team</p>
+                                
+                                <form method="POST">{% csrf_token %}
+                                    <input type="hidden" name="team_id" value="{{team.id}}">
+                                    <input class="btn text-white btn-block" type="submit" value="Add" style="background-color: #404CFF;">
+                                </form>
+                            </div>
+                        </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load notifications_tags %}
+{% block content %}
+    <body>
+        <div class="container-fluid bg-light">
+            <div class="row">
+                <div class="col-1 ergo d-flex flex-column align-items-center " style="height: 100vh;">
+                    <img src="{% static 'img/logo3.png' %}" class="mt-4">
+                    <a class="btn ergo mt-5" data-toggle="tooltip" data-placement="right" title="Dashboard" href="dashboard/list" target="template" role="button">
+                        <img src="{% static 'img/dashboard.png' %}">
+                    </a>
+                    <a class="btn ergo mt-5" data-toggle="tooltip" data-placement="right" title="Your Tasks" href="tasks" role="button" target="template">
+                            <img src="{% static 'img/list.png' %}">
+                    </a>
+                    <a class="btn ergo mt-5" data-toggle="tooltip" data-placement="right" title="Teams" href="teams" role="button" target="template">
+                            <img src="{% static 'img/team.png' %}">
+                    </a>
+                    <a class="btn ergo mt-5" data-toggle="tooltip" data-placement="right" title="Projects" href="projects" role="button" target="template">
+                            <img src="{% static 'img/folder.png' %}">
+                    </a>
+                    <a class="btn ergo mt-5 ml-2" data-toggle="tooltip" data-placement="right" title="Notifications" href="notifications" role="button" target="template">
+                            <img src="{% static 'img/notification.png' %}"> <span class="badge badge-danger"> {% live_notify_badge %}<span>
+                    </a>
+                    <a class="btn ergo mt-auto mb-3" data-toggle="tooltip" data-placement="right" title="Profile" href="profile" target="template" role="button">
+                            <img src="{{ user.picture }}" height="50%" width="50%" class="img-fluid rounded-circle">
+                    </a>
+                    <a class="btn ergo" data-toggle="tooltip" data-placement="right" title="Logout" href="/logout" role="button">
+                            <img src="{% static 'img/logout.png' %}">
+                    </a>
+                </div>
+                <div class="col-11">
+                    <iframe name="template" id="template" width="99%" height="99%" src="dashboard/list" frameborder="0"><!--this is the main frame where all
+                    the functionalities are accessible-->
+                    </iframe>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock content %}

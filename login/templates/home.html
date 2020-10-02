@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+    <body>
+        <div class="container-fluid">
+            <!--start header-->
+            <div class="row justify-content-around ergo align-items-center">
+                <button type="button" class="btn ergo d-flex align-items-center"><img src="{% static 'img/logo2.png'%}" height="40" width="40"><h1 class="text-white ml-1">Ergo</h1></button>
+                <h3 class="text-white">Simple Kanban Project Manager and Issue Tracker</h3>
+                <a href="access"><button type="button" class="btn ergo"><h4 class="text-white">Sign In<h4></button></a>
+            </div>
+            <!--end header-->
+            
+            <!--start image-->
+            <div class="row align-items-center justify-content-center" data-background="{% static 'img/teamwork.jpg' %}" style="background-image: url({% static 'img/teamwork.jpg' %});">
+                <div class="card col-3 bg-opac marg">
+                    <div class="card-body">
+                        <h4 class="card-title mb-2 text-center"><strong>We</strong> make project management, teamwork and issue tracking easy for <strong>You</strong></h4>
+
+                        <p class="card-text mt-4 mb-5 text-center">Looking for Solutions? We got them!</p>
+                        <a href="access"><button type="button" class="btn btn-primary btn-block"><h5>Get Access Now</h5></button></a>
+                    </div>
+                </div>
+            </div>
+            <!--end image-->
+        </div>
+    </body>
+{% endblock content %}

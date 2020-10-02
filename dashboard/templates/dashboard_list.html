@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-5">
+                <h2 class="ml-3 mt-3">Dashboard</h2>
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <div class="row justify-content-center" style="height: 90vh;">
+            <h3 class="mt-2 col-9 d-flex justify-content-center">Issues By Status</h3>
+
+            <div class="col-4 mt-2">       
+                <div class="card">
+                    <img class="img-fluid mt-2 mx-auto" height="30%" width="30%"
+                    src="https://cdn.filestackcontent.com/09DMzXUTuuP3tvhxsI8g">
+                    
+                    <div class="card-body">
+                        <h4 class="card-title text-center">To Do</h4>
+                        <h4 class="card-title text-center">{{todo}}</h4>
+                        <a class="btn btn-primary btn-block" href="/dashboard/detail/To Do" role="button">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4 mt-2">       
+                <div class="card">
+                    <img class="img-fluid mt-2 mx-auto" height="30%" width="30%"
+                    src="https://cdn.filestackcontent.com/GH1OuBoJTDm2j3Uih5pa">
+                    
+                    <div class="card-body">
+                        <h4 class="card-title text-center">In Progress</h4>
+                        <h4 class="card-title text-center">{{inprogress}}</h4>
+                        <a class="btn btn-warning btn-block" href="/dashboard/detail/In Progress" role="button">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4 mt-2">       
+                <div class="card">
+                    <img class="img-fluid mt-2 mx-auto" height="30%" width="30%"
+                    src="https://cdn.filestackcontent.com/i5WtE7TvTXmGkvNnZKqz">
+                    
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Done</h4>
+                        <h4 class="card-title text-center">{{done}}</h4>
+                        <a class="btn btn-success btn-block" href="/dashboard/detail/Done" role="button">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="mt-3 col-9 d-flex justify-content-center">Issues By Priority</h3>
+
+            <div class="col-4 mt-2">       
+                <div class="card">
+                    <img class="img-fluid mt-2 mx-auto" height="30%" width="30%"
+                    src="https://cdn.filestackcontent.com/ZZb4W27pRTCUo4U63wO9">
+                    
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Low</h4>
+                        <h4 class="card-title text-center">{{low}}</h4>
+                        <a class="btn btn-success btn-block" href="/dashboard/detail/Low" role="button">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4 mt-2">       
+                <div class="card">
+                    <img class="img-fluid mt-2 mx-auto" height="30%" width="30%"
+                    src="https://cdn.filestackcontent.com/AqSvZnNBRpqWPMdhN6QU">
+                    
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Medium</h4>
+                        <h4 class="card-title text-center">{{medium}}</h4>
+                        <a class="btn btn-warning btn-block" href="/dashboard/detail/Medium" role="button">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4 mt-2">       
+                <div class="card">
+                    <img class="img-fluid mt-2 mx-auto" height="30%" width="30%"
+                    src="https://cdn.filestackcontent.com/UwFupkruSx2Zbh3YZU0I">
+                    
+                    <div class="card-body">
+                        <h4 class="card-title text-center">High</h4>
+                        <h4 class="card-title text-center">{{high}}</h4>
+                        <a class="btn btn-danger btn-block" href="/dashboard/detail/High" role="button">Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

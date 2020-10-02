@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <!--start header-->
+        <div class="row">
+            <div class="col-3">
+                <h2 class="ml-3 mt-3">Add Members</h2>
+            </div>
+
+            <div class="col-2 d-flex align-items-center ml-auto mt-2">
+                    <a class="btn text-white" role="button" href="{{team.get_absolute_url}}"
+                    style="background-color: #404CFF;">Back</a>
+            </div>
+        </div>
+        <!--end header-->
+
+        <div class="row bg-dark pt-1"></div>
+
+        <!--start list-->
+        <div class="row" style="height: 90vh;">
+            {% for member in users %}
+                <div class="col-3 mt-3">        
+                    <div class="card">
+                        <img class="img-fluid rounded-circle mt-2 mx-auto" height="30%" width="30%" src="{{member.picture}}">
+                        
+                        <div class="card-body">
+                            <h4 class="card-title text-center">{{member.first_name}}</h4>
+                            <p class="card-text text-center text-muted">{{member.job_title}}</p>
+
+                            <form method="POST">{% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{member.id}}">
+                                <input class="btn text-white btn-block" type="submit" value="Add" style="background-color: #404CFF;">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!--end list-->
+    </div>
+</body>
+{% endblock content %}

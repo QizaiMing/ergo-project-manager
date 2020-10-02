@@ -1,0 +1,26 @@
+div.greyGridTable {
+    border: 2px solid #FFFFFF;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+  }
+  .divTable.greyGridTable .divTableCell, .divTable.greyGridTable .divTableHead {
+    border: 1px solid #FFFFFF;
+    padding: 3px 4px;
+  }
+  .divTable.greyGridTable .divTableCell:nth-child(even) {
+    background: #EBEBEB;
+  }
+  .divTable.greyGridTable .divTableHeading {
+    border-bottom: 2px solid #333333;
+  }
+  .divTable.greyGridTable .divTableHeading .divTableHead {
+    text-align: center;
+  }
+  /* DivTable.com */
+  .divTable{ display: table; }
+  .divTableRow { display: table-row; }
+  .divTableHeading { display: table-header-group;}
+  .divTableCell, .divTableHead { display: table-cell;}
+  .divTableHeading { display: table-header-group;}
+  .divTableBody { display: table-row-group;}

@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <body>
+        <div class="container-fluid bg-light">
+            <div class="row" style="height: 100vh;">
+                <div class="col-12 mt-5">
+                    <form method="POST"> {% csrf_token %}
+                        <h2>Are you sure you want to delete "{{ object.name }}"?</h2>
+                        <input type="submit" value="Yes"  class="btn btn-success mr-5 mt-3 pl-5 pr-5"/>
+                        <a class="btn btn-danger ml-5 mt-3 pl-5 pr-5" role="button"
+                        href='{{ object.get_absolute_url }}'>No</a>
+                    </form>
+                </div>
+            </div>
+        </div>    
+    </body>
+{% endblock content %}

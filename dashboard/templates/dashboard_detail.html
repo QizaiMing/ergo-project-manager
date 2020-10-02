@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-5">
+                <h2 class="ml-3 mt-3">Dashboard</h2>                
+            </div>
+
+            <div class="col-7 d-flex align-items-center mr-auto mt-2">
+                <a class="btn text-white ml-auto" role="button" href="/dashboard/list"
+                style="background-color: #404CFF;">Back</a>
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <div class="row" style="height: 90vh;">
+            <div class="divTable greyGridTable mt-3 col-12">
+                <div class="divTableHeading">
+                    <div class="divTableRow">
+                        <div class="divTableHead pr-5 pl-5"><h5>Title</h5></div>
+                        <div class="divTableHead"><h5>Status</h5></div>
+                        <div class="divTableHead"><h5>Priority</h5></div>
+                        <div class="divTableHead"><h5>Creator</h5></div>
+                        <div class="divTableHead"><h5>Project</h5></div>
+                        <div class="divTableHead"><h5>Created</h5></div>
+                    </div>
+                </div>
+                <div class="divTableBody">
+                    {% if issues %}
+                        {% for issue in issues %}
+                            <div class="divTableRow">
+                                <div class="divTableCell"><a href="{{issue.get_absolute_url}}">{{issue.compressed_title}}</a></div>
+                                <div class="divTableCell">{{issue.status}}</div>
+                                <div class="divTableCell">{{issue.priority}}</div>
+                                <div class="divTableCell">
+                                {% if issue.creator.id == user.id %}
+                                    <strong>You</strong>
+                                    
+                                    {% else %}
+                                    {{issue.creator.first_name}}
+                                {% endif %}
+                                </div>
+                                <div class="divTableCell"><a href="{{issue.project.get_absolute_url}}">{{issue.project.name}}</a></div>
+                                <div class="divTableCell">{{issue.created}}</div>
+                            </div>
+                        {% endfor %}
+
+                    {% else %}
+                        <h5 class="text-muted ml-5 mt-5">No issues matched your query</h5>
+                    {% endif %}    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

@@ -1,0 +1,121 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-5">
+                <h2 class="ml-3 mt-3">Issues Assigned to You</h2>
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <form method="POST" class="mt-3"> {% csrf_token %}
+            <div class="form-row">
+                <div class="col">
+                    <label for="filter_search">Search</label>
+                    <input type="text" class="form-control" name="filter_search"
+                    id="filter_search" placeholder="Key words" value="{{filters.search}}">
+                </div>
+
+                <div class="col-1">
+                    <label for="filter_status">Status</label>
+                    <select name="filter_status" id="filter_status" class="form-control">
+                        <option value="">None</option>
+                        <option value="To Do"{% if filters.status == 'To Do' %}selected{% endif %}
+                        >To Do</option>
+                        <option value="In Progress"{% if filters.status == 'In Progress' %}selected{% endif %}
+                        >In Progress</option>
+                        <option value="Done"{% if filters.status == 'Done' %}selected{% endif %}
+                        >Done</option>
+                    </select>
+                </div>
+
+                <div class="col-1">
+                    <label for="filter_priority">Priority</label>
+                    <select name="filter_priority" id="filter_priority" class="form-control">
+                        <option value="">None</option>
+                        <option value="Low" {% if filters.priority == 'Low' %}selected{% endif %}
+                        >Low</option>
+                        <option value="Medium" {% if filters.priority == 'Medium' %}selected{% endif %}
+                        >Medium</option>
+                        <option value="High" {% if filters.priority == 'High' %}selected{% endif %}
+                        >High</option>
+                    </select>
+                </div>
+
+                <div class="col-2">
+                    <label for="filter_creator">Creator</label>
+                    <select name="filter_creator" id="filter_creator" class="form-control">
+                        <option value="">None</option>
+                        {% for u in users %}
+                            <option value="{{u.id}}" {% if filters.creator.id == u.id %}selected{% endif %}
+                            >
+                            {% if user.id == u.id %}
+                                You
+                            {% else %}
+                                {{u.first_name}}
+                            {% endif %}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-3">
+                    <label for="filter_project">Project</label>
+                    <select name="filter_project" id="filter_project" class="form-control">
+                        <option value="">None</option>
+                        {% for project in projects %}
+                            <option value="{{project.id}}" {% if filters.project.id == project.id %}selected{% endif %}
+                            >{{project.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>                
+            </div>
+            <div class="form-row mt-2 justify-content-center">
+                <input type="submit" value="Apply Filters" class="btn text-white"
+                    style="background-color: #404CFF;">
+            </div>           
+        </form>
+
+        <div class="row" style="height: 90vh;">
+            <div class="divTable greyGridTable mt-3 col-12">
+                <div class="divTableHeading">
+                    <div class="divTableRow">
+                        <div class="divTableHead pr-5 pl-5"><h5>Title</h5></div>
+                        <div class="divTableHead"><h5>Status</h5></div>
+                        <div class="divTableHead"><h5>Priority</h5></div>
+                        <div class="divTableHead"><h5>Creator</h5></div>
+                        <div class="divTableHead"><h5>Project</h5></div>
+                        <div class="divTableHead"><h5>Created</h5></div>
+                    </div>
+                </div>
+                <div class="divTableBody">
+                    {% if issues %}
+                        {% for issue in issues %}
+                            <div class="divTableRow">
+                                <div class="divTableCell"><a href="{{issue.get_absolute_url}}">{{issue.compressed_title}}</a></div>
+                                <div class="divTableCell">{{issue.status}}</div>
+                                <div class="divTableCell">{{issue.priority}}</div>
+                                <div class="divTableCell">
+                                {% if issue.creator.id == user.id %}
+                                    <strong>You</strong>
+                                    
+                                    {% else %}
+                                    {{issue.creator.first_name}}
+                                {% endif %}
+                                </div>
+                                <div class="divTableCell"><a href="{{issue.project.get_absolute_url}}">{{issue.project.name}}</a></div>
+                                <div class="divTableCell">{{issue.created}}</div>
+                            </div>
+                        {% endfor %}
+
+                    {% else %}
+                        <h5 class="text-muted ml-5 mt-5">No issues matched your query</h5>
+                    {% endif %}    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

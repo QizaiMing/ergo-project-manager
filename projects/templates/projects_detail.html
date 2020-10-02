@@ -1,0 +1,118 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-5">
+                <h2 class="ml-3 mt-3">{{ object.name }}</h2>
+            </div>
+
+            <div class="col-7 d-flex align-items-center mr-auto mt-2">
+                {% if object.manager.id == user.id %} <!--shows up if the user is the project manager-->
+                    <a class="btn text-white mr-2" role="button" href="{{ object.id }}/update" style="background-color: #404CFF;">Edit Project</a>
+                    <a class="btn text-white mr-2" role="button" href="{{ object.id }}/teams" style="background-color: #404CFF;">Teams and Project Manager</a>
+                    <a class="btn btn-info ml-auto" role="button" href="{{ object.id }}/manager">Change Manager</a>
+                    <a class="btn text-white btn-danger ml-2" role="button" href="{{ object.id }}/delete">Delete Project</a>
+
+                {% else %} <!--shows up if the user is just a member-->
+                    <a class="btn text-white mr-2" role="button" href="{{ object.id }}/teams" style="background-color: #404CFF;">Teams and Project Manager</a>
+                    <a class="btn text-white ml-auto" role="button" href="/projects" style="background-color: #404CFF;">Back</a>
+
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <div class="row" style="height: 90vh;">
+            <div class="col-4 mt-3">
+                <h4>To do</h4>
+
+                <div class="card mt-1" style="background-color: #cccccc;">
+                    <div class="card-body">
+
+                        <div class="col-12 d-flex justify-content-center">
+                            <a href="{{object.get_absolute_url}}/issues/create" role="button" class="btn btn-light">New Issue +</a>
+                        </div>
+
+                        {% for todo in to_do %}
+                            <div class="col-12 bg-light rounded mt-3 pb-1">
+                                <h4 class="card-title"><a href="{{todo.get_absolute_url}}">{{todo.title}}</h4></a>
+                                <p class="card-text"><span class="badge badge-primary">{{todo.status}} - {{todo.id}}</span>
+                                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<!--tabs for spacing I think-->
+
+                                    {% if todo.priority == 'Low' %}
+                                        Priority <span class="badge badge-success">{{todo.priority}}</span></p>
+
+                                    {% elif todo.priority == 'Medium' %}
+                                        Priority <span class="badge badge-warning">{{todo.priority}}</span></p>
+
+                                    {% else %}
+                                        Priority <span class="badge badge-danger">{{todo.priority}}</span></p>
+                                        
+                                    {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4 mt-3">
+                <h4>In Progress</h4>
+
+                <div class="card mt-1" style="background-color: #cccccc;">
+                    <div class="card-body">
+                        {% for inprogress in in_progress %}
+                            <div class="col-12 bg-light rounded mt-3 pb-1">
+                                <h4 class="card-title"><a href="{{inprogress.get_absolute_url}}">{{inprogress.title}}</h4></a>
+                                <p class="card-text"><span class="badge badge-warning">{{inprogress.status}} - {{inprogress.id}}</span>
+                                    &emsp;&emsp;&emsp;&emsp;&emsp;<!--tabs for spacing I think-->
+                                {% if inprogress.priority == 'Low' %}
+                                        Priority <span class="badge badge-success">{{inprogress.priority}}</span></p>
+
+                                    {% elif inprogress.priority == 'Medium' %}
+                                        Priority <span class="badge badge-warning">{{inprogress.priority}}</span></p>
+
+                                    {% else %}
+                                        Priority <span class="badge badge-danger">{{inprogress.priority}}</span></p>
+
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4 mt-3">
+                <h4>Done</h4>
+                <div class="card mt-1" style="background-color: #cccccc;">
+                    <div class="card-body">
+                        {% for issue in done %}
+                            <div class="col-12 bg-light rounded mt-3 pb-1">
+                                <h4 class="card-title"><a href="{{issue.get_absolute_url}}">{{issue.title}}</h4></a>
+                                <p class="card-text"><span class="badge badge-success">{{issue.status}} - {{issue.id}}</span>
+                                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<!--tabs for spacing I think-->
+                                {% if issue.priority == 'Low' %}
+                                        Priority <span class="badge badge-success">{{issue.priority}}</span></p>
+
+                                    {% elif issue.priority == 'Medium' %}
+                                        Priority <span class="badge badge-warning">{{issue.priority}}</span></p>
+
+                                    {% else %}
+                                        Priority <span class="badge badge-danger">{{issue.priority}}</span></p>
+
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="col-12 d-flex justify-content-center mt-3">
+                            <a href="{{object.get_issues_list_url}}" role="button" class="btn btn-light">See all Done issues</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

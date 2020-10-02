@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-1">
+                <h2 class="ml-3 mt-3">Projects</h2>
+            </div>
+
+            <div class="col-2 d-flex align-items-center mr-auto ml-4 mt-2">
+                <a class="btn text-white" role="button" href="create" style="background-color: #404CFF;">Create Project +</a>
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <div class="row" style="height: 90vh;">
+            {% if object_list %}
+                {% for instance in object_list %}
+                    <div class="col-3 mt-3">        
+                        <div class="card">
+                            <img class="img-fluid mt-2 mx-auto" height="30%" width="30%"
+                            src="https://cdn.filestackcontent.com/yp3BMd4wQ8OQi9wTpYmO">
+                            
+                            <div class="card-body">
+                                <h4 class="card-title text-center">{{instance.name}}</h4>
+                                <a class="btn text-white btn-block" href="{{instance.get_absolute_url}}" role="button"
+                                style="background-color: #404CFF;">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            {% else %} <!--executes if the user is not on any project-->
+                <h2 class="ml-3 mt-3 text-muted">You are not part of any projects yet</h2>
+
+            {% endif %}
+        </div>
+    </div>
+</body>
+{% endblock content %}

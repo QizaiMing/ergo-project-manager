@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-3">
+                <h2 class="ml-3 mt-3">Change Manager</h2>
+            </div>
+
+            <div class="col-2 d-flex align-items-center ml-auto mt-2">
+                    <a class="btn text-white" role="button" href="{{project.get_absolute_url}}"
+                    style="background-color: #404CFF;">Back</a>
+            </div>
+        </div>
+
+        <div class="row bg-dark pt-1"></div>
+
+        <div class="row" style="height: 90vh;">
+            <!--start users list-->
+            {% for member in users %}
+                <div class="col-3 mt-3">        
+                    <div class="card">
+                        <img class="img-fluid rounded-circle mt-2 mx-auto" height="30%" width="30%" src="{{member.picture}}">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">{{member.first_name}}</h4>
+                            <p class="card-text text-center text-muted">{{member.job_title}}</p>
+                            <button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modalconfirm{{member.id}}">Make Manager</button>
+
+                            <div class="modal fade" id="modalconfirm{{member.id}}" tabindex="-1" role="dialog" aria-labelledby="modalconfirm{{member.id}}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title" id="modalconfirmtitle">Give Project Manager Role</h3>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <h4>Are you sure you want to give the Project Manager role to <strong>{{member.first_name}}?</strong></h4>
+                                            <h5 class="text-warning">Warning:</h5><p>There can only be one Project Manager per project, this means that you will lose your current Project Manager privileges</p>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <form method="POST" class="mr-auto">{% csrf_token %}
+                                                <input type="hidden" name="user_id" value="{{member.id}}">
+                                                <input type="submit" value="Yes" class="btn btn-success pl-5 pr-5">
+                                            </form>
+                                            
+                                            <button type="button" class="btn btn-danger col-3" data-dismiss="modal">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!--end users list-->
+        </div>
+    </div>
+<body>
+{% endblock content %}

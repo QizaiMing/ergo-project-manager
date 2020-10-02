@@ -1,0 +1,119 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <body class="bg-light">
+        <div class="container-fluid bg-light">
+            <div class="row justify-content-around" >
+                <!--start profile card-->
+                <div class="col-5 mt-3">
+                    <div class="d-flex flex-column card" style="background-color: #f0f1f2;">
+                        <h2 class="text-center mt-3">Profile</h2>
+                        <img class="avatar img-fluid img-thumbnail mt-1 mx-auto" src="{{ user.picture }}" width="40%" height="40%">
+                        
+                        <form method="POST"> {% csrf_token %}
+                            <div class="col-4 mx-auto mt-2">
+                                <a class="btn text-white mx-auto" href="picture" role="button" style="background-color: #404CFF;">Upload Picture</a>
+                            </div>
+                            
+                            <div class="form-group row mt-3">
+                                <label for="display_name" class="col-3 col-form-label ml-auto">Name</label>
+                                
+                                <div class="col-6 mr-auto">
+                                    <input type="text" class="form-control" name="display_name" id="display_name" placeholder="Full Name" value="{{ user.first_name }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="job-title" class="col-3 col-form-label ml-auto">Job Title</label>
+                                
+                                <div class="col-6 mr-auto">
+                                    <input type="text" class="form-control" name="job_title" id="job_title" placeholder="Your job title" value="{{ user.job_title }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="department" class="col-3 col-form-label ml-auto">Department</label>
+                                
+                                <div class="col-6 mr-auto">
+                                    <input type="text" class="form-control" name="department" id="department" placeholder="Department you work on" value="{{ user.department }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="location" class="col-3 col-form-label ml-auto">Location</label>
+                                
+                                <div class="col-6 mr-auto">
+                                    <input type="text" class="form-control" name="location" id="location" placeholder="City, Country" value="{{ user.location }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="email" class="col-3 col-form-label ml-auto">Email</label>
+                                
+                                <div class="col-6 mr-auto">
+                                    <input type="text" class="form-control" id="email" placeholder="{{ user.email }}" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="teams" class="col-3 col-form-label ml-auto">Teams</label>
+                                
+                                <div class="col-6 mr-auto">
+                                    <input type="text" class="form-control" name="teams" id="teams" placeholder="Teams you work with" value="{{ user.teams }}">
+                                </div>
+                            </div>
+                            
+                            <div class="col-3 mx-auto mb-3">
+                                <input type="submit" class="btn text-white text-center btn-block" value="Save" style="background-color: #404CFF;"> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--end profile card-->
+                <div class="col-5 mt-3">
+                    <div class="card" style="background-color: #f0f1f2;">
+                        <div class="card-body">
+                            <h2 class="text-center">Worked On</h2>
+                            {% for issue in issues %}
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="{{issue.get_absolute_url}}">{{issue.compressed_title}}</a>
+                                        <span class="ml-4"><strong>{{issue.project.name}}</strong></span>
+                                    </div>
+                                </div>
+                                
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="card mt-1" style="background-color: #f0f1f2;">
+                        <div class="card-body">
+                            <h2 class="text-center">Projects You Work On</h2>
+                            {% for project in projects %}
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="{{project.get_absolute_url}}"><strong>{{project.name}}</strong></a>                                      
+                                    </div>
+                                </div>
+                                
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="card mt-1" style="background-color: #f0f1f2;">
+                        <div class="card-body">
+                            <h2 class="text-center">Teams You Work With</h2>
+                            {% for team in teams %}
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="{{team.get_absolute_url}}"><strong>{{team.name}}</strong></a>                                     
+                                    </div>
+                                </div>
+                                
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock content %}

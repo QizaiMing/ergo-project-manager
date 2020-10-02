@@ -1,0 +1,60 @@
+*
+{
+font-family: 'Inria Sans', sans-serif;
+}
+.ergo
+{
+    background-color: #404CFF;
+}
+
+
+.bg-opac
+{
+    opacity: 0.8;
+}
+.bg-opac2
+{
+    opacity: 0.9;
+}
+
+.marg
+{
+    margin-top: 180px;
+    margin-bottom: 200px; 
+}
+
+/*@media screen and (max-width: 768px) {
+    .quote, .fot{
+        font-size:20px;
+    }
+}
+ 
+@media screen and (max-width: 568px) {
+    .quote, .fot{
+        font-size:0.8em;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ini {
+        font-size:20px;
+    }
+}
+ 
+@media screen and (max-width: 568px) {
+     {
+        font-size:0.8em;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ceoquote{
+        font-size:20px;
+    }
+}
+ 
+@media screen and (max-width: 568px) {
+    .ceoquote{
+        font-size:1.2em;
+    }
+}

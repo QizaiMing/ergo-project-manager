@@ -15,7 +15,7 @@ work with other people using issues <br />
 ## Tools
 - Django<br>
 - Nginx<br>
-- Auth0 Authentication API<br>
-- Auth0 Management API<br>
-- Filestack API<br>
+- <a href="https://auth0.com/docs/api/authentication">Auth0 Authentication API</a><br>
+- <a href="https://auth0.com/docs/api/management/v2">Auth0 Management API</a><br>
+- <a href="https://www.filestack.com/docs/">Filestack API</a><br>
 - Heroku
